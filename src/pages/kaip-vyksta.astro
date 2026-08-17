@@ -12,7 +12,7 @@ const services = await getServices()
 ---
 <Base title={d.seo?.title ?? 'Kaip vyksta konsultacijos'} description={d.seo?.description}>
   <Section>
-    <h1 class="text-4xl">{d.heading}</h1>
+    <h1 class="text-4xl md:text-5xl">{d.heading}</h1>
     <p class="prose-measure mt-6 text-lg text-[var(--color-ink-500)]">{d.intro}</p>
     <div class="prose-measure prose-flow mt-10">
       <Content />
@@ -20,18 +20,18 @@ const services = await getServices()
   </Section>
 
   <Section tone="raised">
-    <h2 class="text-3xl">{d.firstSessionHeading}</h2>
+    <h2 class="text-3xl md:text-4xl">{d.firstSessionHeading}</h2>
     <p class="prose-measure mt-5 text-[var(--color-ink-500)]">{d.firstSessionText}</p>
     <div class="mt-9"><Button href="/registracija">Registruotis pokalbiui</Button></div>
   </Section>
 
   <Section>
-    <h2 class="text-3xl">Konsultacijų tipai</h2>
+    <h2 class="text-3xl md:text-4xl">Konsultacijų tipai</h2>
     <div class="mt-10 space-y-8">
       {services.map((s) => (
         <div class="border-t border-[var(--color-sand-200)] pt-6">
-          <h3 class="text-xl">{s.data.title}</h3>
-          <p class="mt-2 text-sm text-[var(--color-ink-500)]">
+          <h3 class="text-2xl">{s.data.title}</h3>
+          <p class="mt-3 text-sm text-[var(--color-ink-500)]">
             {s.data.duration} · {s.data.price}
             {s.data.forNewClients && <span class="ml-2">· galima registruotis internetu</span>}
           </p>

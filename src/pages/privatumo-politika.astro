@@ -10,7 +10,7 @@ const d = page!.data
 ---
 <Base title={d.seo?.title ?? 'Privatumo politika'} description={d.seo?.description}>
   <Section>
-    <h1 class="text-4xl">{d.heading}</h1>
+    <h1 class="text-4xl md:text-5xl">{d.heading}</h1>
     {d.lastUpdated && <p class="mt-3 text-sm text-[var(--color-ink-500)]">Atnaujinta: {d.lastUpdated}</p>}
     <div class="prose-measure prose-flow mt-10">
       <Content />

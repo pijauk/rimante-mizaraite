@@ -72,9 +72,17 @@ h1, h2, h3 {
   font-family: var(--font-serif);
   color: var(--color-ink-900);
   font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
+  text-wrap: balance;
 }
+
+/* Optical metrics per level, not one blanket value. Display sizes want
+   tighter leading and a little negative tracking to look composed; small
+   headings want neither, or they read cramped. Presence comes from size and
+   space here — never weight. Only the 400 face is loaded, so any bolder
+   heading would be a synthetic smear. */
+h1 { line-height: 1.1;  letter-spacing: -0.021em; }
+h2 { line-height: 1.16; letter-spacing: -0.014em; }
+h3 { line-height: 1.3;  letter-spacing: -0.006em; }
 
 /* Readable measure everywhere */
 .prose-measure { max-width: 68ch; }
@@ -92,8 +100,8 @@ h1, h2, h3 {
    --------------------------------------------------------------- */
 .prose-flow > article > * + * { margin-top: var(--flow-gap, 1.25rem); }
 
-.prose-flow > article > h2 { margin-top: 2.75rem; font-size: 1.5rem; }
-.prose-flow > article > h3 { margin-top: 2rem;    font-size: 1.25rem; }
+.prose-flow > article > h2 { margin-top: 3rem;     font-size: 1.75rem; }
+.prose-flow > article > h3 { margin-top: 2.25rem;  font-size: 1.375rem; }
 .prose-flow > article > :is(h2, h3) + * { margin-top: 0.6rem; }
 
 /* First child never needs a top gap — the wrapper's own margin handles it */
