@@ -23,7 +23,7 @@
   --color-clay-500: #2e2a24;
   --color-clay-600: #17140f;
 
-  --font-serif: "Hedvig Letters Serif", Georgia, "Times New Roman", serif;
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* Near-square corners. Overriding the scale here retunes every rounded-*
@@ -46,11 +46,11 @@
 }
 
 /* Lithuanian needs the latin-ext subset: ą č ę ė į š ų ū ž
-   Both Hedvig Letters Serif and Inter ship it. Verify any font swap
-   against real copy.
-   Hedvig Letters Serif has ONE weight (400) — do not request 500/600
-   from Google Fonts and do not set a heavier font-weight on headings,
-   or browsers will synthesise a fake bold. */
+   Both Newsreader and Inter ship it. Verify any font swap against real copy.
+   Newsreader is variable (200-800), but we load ONLY Regular 400 to keep the
+   payload small. Setting a heavier font-weight on headings would make the
+   browser synthesise a fake bold — add the weight to the Google Fonts URL
+   in Base.astro first. */
 
 html {
   scroll-behavior: smooth;

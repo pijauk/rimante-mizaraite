@@ -25,21 +25,19 @@ const bookingUrl = settings?.bookingUrl
 
     <!-- Booking calendar.
          Replace with the Cal.com embed script for inline booking. -->
-    <div class="mt-14 rounded-3xl border border-[var(--color-sand-200)] bg-[var(--color-sand-100)] p-8">
+    <div class="mt-14">
       {bookingUrl ? (
         <>
-          <p class="text-[var(--color-ink-500)]">Pasirinkite Jums patogų laiką:</p>
-          <div class="mt-6 overflow-hidden rounded-2xl bg-white">
-            <iframe
-              src={bookingUrl}
-              title="Registracijos kalendorius"
-              loading="lazy"
-              class="h-[680px] w-full border-0"
-            ></iframe>
-          </div>
+          <p class="prose-measure text-[var(--color-ink-500)]">Pasirinkite Jums patogų laiką:</p>
+          <iframe
+            src={bookingUrl}
+            title="Registracijos kalendorius"
+            loading="lazy"
+            class="mt-6 block h-[680px] w-full border-0"
+          ></iframe>
         </>
       ) : (
-        <p class="text-[var(--color-ink-500)]">
+        <p class="prose-measure text-[var(--color-ink-500)]">
           Registracijos kalendorius bus įjungtas netrukus. Kol kas rašykite
           <a class="underline underline-offset-4" href="/kontaktai"> kontaktų puslapyje</a>.
         </p>
