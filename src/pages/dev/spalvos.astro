@@ -1,0 +1,314 @@
+---
+/**
+ * Colour editor — DEV ONLY.
+ *
+ * Adjust the @theme tokens with live preview, then write them straight into
+ * src/styles/global.css. The save endpoint (/__theme) is a Vite dev middleware
+ * defined in astro.config.mjs, so it does not exist in a production build.
+ *
+ * Not linked from anywhere in the site. Open http://localhost:4321/dev/spalvos
+ */
+const isDev = import.meta.env.DEV
+---
+<html lang="lt">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Spalvų redaktorius (dev)</title>
+    <style>
+      :root { color-scheme: light; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font: 15px/1.5 ui-sans-serif, system-ui, -apple-system, sans-serif;
+        color: #2e2a24;
+        background: #f4f0e9;
+      }
+      .shell { display: grid; grid-template-columns: 340px 1fr; height: 100vh; }
+      .panel {
+        display: flex; flex-direction: column;
+        background: #faf8f5; border-right: 1px solid #e8e1d5; overflow: hidden;
+      }
+      .panel-head { padding: 18px 20px 14px; border-bottom: 1px solid #e8e1d5; }
+      .panel-head h1 { margin: 0 0 4px; font-size: 16px; font-weight: 600; }
+      .panel-head p { margin: 0; font-size: 12.5px; color: #6b6255; }
+      .tokens { flex: 1; overflow-y: auto; padding: 6px 20px 20px; }
+      .group { margin-top: 18px; }
+      .group > h2 {
+        margin: 0 0 8px; font-size: 11px; font-weight: 700;
+        letter-spacing: .09em; text-transform: uppercase; color: #b8a98f;
+      }
+      .row { display: flex; align-items: center; gap: 10px; padding: 5px 0; }
+      .row label { flex: 1; font-size: 13px; font-family: ui-monospace, monospace; }
+      .row input[type="color"] {
+        width: 34px; height: 28px; padding: 0; border: 1px solid #d6cbb8;
+        border-radius: 7px; background: none; cursor: pointer; flex: none;
+      }
+      .row input[type="text"] {
+        width: 88px; flex: none; padding: 5px 7px; font: 12.5px ui-monospace, monospace;
+        border: 1px solid #d6cbb8; border-radius: 7px; background: #fff; color: #2e2a24;
+      }
+      .row input[type="text"][aria-invalid="true"] { border-color: #b4472f; }
+      .row.dirty label::after { content: " •"; color: #967251; font-weight: 700; }
+      .actions {
+        display: flex; align-items: center; gap: 8px;
+        padding: 14px 20px; border-top: 1px solid #e8e1d5; background: #faf8f5;
+      }
+      button {
+        font: inherit; font-size: 13.5px; padding: 9px 15px; border-radius: 999px;
+        cursor: pointer; transition: background .15s, color .15s;
+      }
+      #save { border: none; background: #967251; color: #fff; font-weight: 600; }
+      #save:hover:not(:disabled) { background: #7d5d42; }
+      #save:disabled { opacity: .45; cursor: default; }
+      #reset { border: 1px solid #d6cbb8; background: none; color: #4a443b; }
+      #reset:hover:not(:disabled) { background: #f4f0e9; }
+      #reset:disabled { opacity: .45; cursor: default; }
+      #status { font-size: 12.5px; color: #6b6255; margin-left: auto; text-align: right; }
+      #status[data-tone="ok"] { color: #3f6b46; }
+      #status[data-tone="err"] { color: #b4472f; }
+      .preview { display: flex; flex-direction: column; min-width: 0; }
+      .preview-bar {
+        display: flex; align-items: center; gap: 8px;
+        padding: 10px 16px; border-bottom: 1px solid #e8e1d5; background: #faf8f5;
+      }
+      .preview-bar select {
+        font: inherit; font-size: 13px; padding: 6px 9px;
+        border: 1px solid #d6cbb8; border-radius: 8px; background: #fff;
+      }
+      .preview-bar span { font-size: 12.5px; color: #6b6255; }
+      iframe { flex: 1; width: 100%; border: 0; background: #fff; }
+      .guard { max-width: 34rem; margin: 18vh auto; padding: 0 24px; }
+      @media (max-width: 820px) {
+        .shell { grid-template-columns: 1fr; height: auto; }
+        .panel { border-right: 0; border-bottom: 1px solid #e8e1d5; }
+        iframe { height: 70vh; }
+      }
+    </style>
+  </head>
+  <body>
+    {!isDev ? (
+      <div class="guard">
+        <h1>Spalvų redaktorius neprieinamas</h1>
+        <p>
+          Šis įrankis veikia tik kūrimo režime (<code>npm run dev</code>), nes jis rašo
+          į <code>src/styles/global.css</code>.
+        </p>
+      </div>
+    ) : (
+      <div class="shell">
+        <div class="panel">
+          <div class="panel-head">
+            <h1>Spalvų redaktorius</h1>
+            <p>Keiskite spalvas, tada „Išsaugoti“ įrašo jas į <code>global.css</code>.</p>
+          </div>
+          <div class="tokens" id="tokens">Kraunama…</div>
+          <div class="actions">
+            <button id="save" disabled>Išsaugoti</button>
+            <button id="reset" disabled>Atstatyti</button>
+            <span id="status"></span>
+          </div>
+        </div>
+
+        <div class="preview">
+          <div class="preview-bar">
+            <select id="page" aria-label="Peržiūros puslapis">
+              <option value="/">Pradinis</option>
+              <option value="/apie">Apie mane</option>
+              <option value="/kaip-vyksta">Kaip vyksta</option>
+              <option value="/kainos">Kainos</option>
+              <option value="/duk">D.U.K.</option>
+              <option value="/kontaktai">Kontaktai</option>
+            </select>
+            <span>Gyva peržiūra</span>
+          </div>
+          <iframe id="preview" src="/" title="Svetainės peržiūra"></iframe>
+        </div>
+      </div>
+    )}
+
+    {isDev && (
+      <script is:inline>
+        const tokensEl = document.getElementById('tokens')
+        const saveBtn = document.getElementById('save')
+        const resetBtn = document.getElementById('reset')
+        const statusEl = document.getElementById('status')
+        const frame = document.getElementById('preview')
+        const pageSel = document.getElementById('page')
+
+        const HEX = /^#[0-9a-f]{6}$/i
+        let saved = {}   // values as they are in the file
+        let draft = {}   // values in the editor
+
+        const setStatus = (msg, tone) => {
+          statusEl.textContent = msg
+          if (tone) statusEl.dataset.tone = tone
+          else delete statusEl.dataset.tone
+        }
+
+        const dirtyNames = () =>
+          Object.keys(draft).filter((n) => draft[n].toLowerCase() !== saved[n].toLowerCase())
+
+        /* Push the draft into the preview iframe as a :root override. Same-origin,
+           so we can style its document directly. */
+        function paintPreview() {
+          const doc = frame.contentDocument
+          if (!doc || !doc.head) return
+          let style = doc.getElementById('theme-draft')
+          if (!style) {
+            style = doc.createElement('style')
+            style.id = 'theme-draft'
+            doc.head.appendChild(style)
+          }
+          const names = dirtyNames()
+          style.textContent = names.length
+            ? ':root{' + names.map((n) => n + ':' + draft[n]).join(';') + '}'
+            : ''
+        }
+
+        function syncButtons() {
+          const n = dirtyNames().length
+          saveBtn.disabled = n === 0
+          resetBtn.disabled = n === 0
+          saveBtn.textContent = n ? 'Išsaugoti (' + n + ')' : 'Išsaugoti'
+          for (const row of tokensEl.querySelectorAll('.row')) {
+            const name = row.dataset.name
+            row.classList.toggle('dirty', draft[name].toLowerCase() !== saved[name].toLowerCase())
+          }
+        }
+
+        function update(name, value) {
+          draft[name] = value
+          paintPreview()
+          syncButtons()
+        }
+
+        function render(tokens) {
+          const groups = []
+          for (const t of tokens) {
+            let g = groups.find((x) => x.name === t.group)
+            if (!g) groups.push((g = { name: t.group, items: [] }))
+            g.items.push(t)
+          }
+
+          tokensEl.textContent = ''
+          for (const g of groups) {
+            const wrap = document.createElement('div')
+            wrap.className = 'group'
+            const h = document.createElement('h2')
+            h.textContent = g.name
+            wrap.appendChild(h)
+
+            for (const t of g.items) {
+              const row = document.createElement('div')
+              row.className = 'row'
+              row.dataset.name = t.name
+
+              const label = document.createElement('label')
+              label.textContent = t.label
+              label.htmlFor = 'c-' + t.name
+
+              const color = document.createElement('input')
+              color.type = 'color'
+              color.id = 'c-' + t.name
+              color.value = t.value
+
+              const text = document.createElement('input')
+              text.type = 'text'
+              text.value = t.value
+              text.spellcheck = false
+              text.setAttribute('aria-label', t.label + ' hex')
+
+              color.addEventListener('input', () => {
+                text.value = color.value
+                text.removeAttribute('aria-invalid')
+                update(t.name, color.value)
+              })
+              text.addEventListener('input', () => {
+                const v = text.value.trim()
+                if (HEX.test(v)) {
+                  text.removeAttribute('aria-invalid')
+                  color.value = v
+                  update(t.name, v)
+                } else {
+                  text.setAttribute('aria-invalid', 'true')
+                }
+              })
+
+              row.append(label, color, text)
+              wrap.appendChild(row)
+            }
+            tokensEl.appendChild(wrap)
+          }
+        }
+
+        async function load() {
+          const res = await fetch('/__theme')
+          const data = await res.json()
+          if (!res.ok) throw new Error(data.error || 'Nepavyko nuskaityti spalvų')
+          saved = {}
+          for (const t of data.tokens) saved[t.name] = t.value
+          draft = { ...saved }
+          render(data.tokens)
+          syncButtons()
+          setStatus(data.tokens.length + ' spalvos')
+        }
+
+        saveBtn.addEventListener('click', async () => {
+          const names = dirtyNames()
+          const payload = {}
+          for (const n of names) payload[n] = draft[n]
+
+          saveBtn.disabled = true
+          setStatus('Saugoma…')
+          try {
+            const res = await fetch('/__theme', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify(payload),
+            })
+            const data = await res.json()
+            if (!res.ok || data.error) throw new Error(data.error || 'Klaida')
+
+            saved = { ...saved, ...payload }
+            /* File is the source of truth now — drop the overrides and reload
+               the preview so what you see comes from global.css itself. */
+            draft = { ...saved }
+            paintPreview()
+            syncButtons()
+            frame.contentWindow.location.reload()
+
+            const msg = 'Išsaugota: ' + data.changed + ' → global.css'
+            setStatus(data.rejected?.length ? msg + ' (atmesta: ' + data.rejected.join(', ') + ')' : msg, 'ok')
+          } catch (err) {
+            setStatus(err.message, 'err')
+            syncButtons()
+          }
+        })
+
+        resetBtn.addEventListener('click', () => {
+          draft = { ...saved }
+          for (const row of tokensEl.querySelectorAll('.row')) {
+            const name = row.dataset.name
+            row.querySelector('input[type="color"]').value = saved[name]
+            const text = row.querySelector('input[type="text"]')
+            text.value = saved[name]
+            text.removeAttribute('aria-invalid')
+          }
+          paintPreview()
+          syncButtons()
+          setStatus('Atstatyta')
+        })
+
+        pageSel.addEventListener('change', () => { frame.src = pageSel.value })
+        frame.addEventListener('load', paintPreview)
+
+        load().catch((err) => {
+          tokensEl.textContent = ''
+          setStatus(err.message, 'err')
+        })
+      </script>
+    )}
+  </body>
+</html>

@@ -28,7 +28,7 @@ const services = await Promise.all(
             <p class="text-lg text-[var(--color-ink-900)]">{data.price}</p>
           </div>
           <p class="mt-1 text-sm text-[var(--color-ink-500)]">{data.duration}</p>
-          <div class="prose-measure mt-4 space-y-4 text-[var(--color-ink-500)]"><Content /></div>
+          <div class="prose-measure prose-flow mt-4 [--flow-gap:1rem] text-[var(--color-ink-500)]"><Content /></div>
         </div>
       ))}
     </div>

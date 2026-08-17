@@ -1,7 +1,12 @@
 ---
 import Button from './Button.astro'
-interface Props { practitionerName: string; bookingUrl: string }
-const { practitionerName, bookingUrl } = Astro.props
+import Logo from './Logo.astro'
+interface Props {
+  practitionerName: string
+  professionalTitle?: string
+  bookingUrl: string
+}
+const { practitionerName, professionalTitle, bookingUrl } = Astro.props
 const nav = [
   { href: '/apie', label: 'Apie mane' },
   { href: '/kaip-vyksta', label: 'Kaip vyksta' },
@@ -11,10 +16,22 @@ const nav = [
 ]
 const path = Astro.url.pathname
 ---
-<header class="border-b border-[var(--color-sand-200)]">
-  <div class="mx-auto flex max-w-5xl items-center justify-between gap-6 px-6 py-5">
-    <a href="/" class="font-serif text-lg text-[var(--color-ink-900)] whitespace-nowrap">
-      {practitionerName}
+<header
+  class="sticky top-0 z-30 border-b border-[var(--color-sand-200)] bg-[var(--color-sand-50)]/85 backdrop-blur-md"
+>
+  <div class="mx-auto flex max-w-page items-center justify-between gap-6 px-6 py-5">
+    <a href="/" class="flex items-center gap-2.5 text-[var(--color-ink-900)]">
+      <Logo class="h-9 w-auto shrink-0 md:h-10" />
+      <span class="min-w-0">
+        <span class="block font-serif text-lg leading-tight whitespace-nowrap">
+          {practitionerName}
+        </span>
+        {professionalTitle && (
+          <span class="mt-0.5 block text-xs leading-snug text-[var(--color-ink-500)]">
+            {professionalTitle}
+          </span>
+        )}
+      </span>
     </a>
 
     <nav class="hidden items-center gap-7 md:flex" aria-label="Pagrindinis meniu">
@@ -31,11 +48,13 @@ const path = Astro.url.pathname
           {item.label}
         </a>
       ))}
-      <Button href="/registracija" class="ml-1 !px-5 !py-2.5 text-sm">Registruotis</Button>
+      <Button href="/registracija" variant="solid" class="ml-1 !px-5 !py-2.5 text-sm">
+        Registruotis
+      </Button>
     </nav>
 
     <details class="relative md:hidden">
-      <summary class="list-none cursor-pointer rounded-full border border-[var(--color-sand-300)] px-4 py-2 text-sm">
+      <summary class="list-none cursor-pointer rounded-sm border border-[var(--color-sand-300)] px-4 py-2 text-sm">
         Meniu
       </summary>
       <div class="absolute right-0 z-20 mt-3 w-56 rounded-2xl border border-[var(--color-sand-200)] bg-[var(--color-sand-50)] p-3 shadow-lg">

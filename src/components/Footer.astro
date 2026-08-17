@@ -6,7 +6,7 @@ const { settings } = Astro.props
 const year = new Date().getFullYear()
 ---
 <footer class="border-t border-[var(--color-sand-200)] bg-[var(--color-sand-100)]">
-  <div class="mx-auto grid max-w-5xl gap-10 px-6 py-16 sm:grid-cols-3">
+  <div class="mx-auto grid max-w-page gap-10 px-6 py-16 sm:grid-cols-3">
     <div>
       <p class="font-serif text-lg text-[var(--color-ink-900)]">{settings?.practitionerName}</p>
       <p class="mt-1 text-sm text-[var(--color-ink-500)]">{settings?.professionalTitle}</p>
@@ -35,7 +35,7 @@ const year = new Date().getFullYear()
   </div>
 
   <div class="border-t border-[var(--color-sand-200)]">
-    <div class="mx-auto max-w-5xl px-6 py-6 text-xs text-[var(--color-ink-500)]">
+    <div class="mx-auto max-w-page px-6 py-6 text-xs text-[var(--color-ink-500)]">
       &copy; {year} {settings?.practitionerName}
     </div>
   </div>

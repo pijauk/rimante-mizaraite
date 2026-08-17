@@ -1,15 +1,23 @@
 ---
+/* Button hierarchy:
+   - outline (default) — every CTA on the page body
+   - solid            — the header CTA only, so it stays the one loud thing
+   - quiet            — inline text link, always visually secondary */
 interface Props {
   href: string
-  variant?: 'primary' | 'quiet'
+  variant?: 'outline' | 'solid' | 'quiet'
   class?: string
 }
-const { href, variant = 'primary', class: extra = '' } = Astro.props
+const { href, variant = 'outline', class: extra = '' } = Astro.props
 const base =
-  'inline-flex items-center justify-center rounded-full px-7 py-3.5 text-base font-medium transition-colors duration-200 min-h-[48px]'
-const styles =
-  variant === 'primary'
-    ? 'bg-[var(--color-clay-500)] text-white hover:bg-[var(--color-clay-600)]'
-    : 'text-[var(--color-ink-700)] underline underline-offset-4 decoration-[var(--color-sand-300)] hover:decoration-[var(--color-clay-500)] px-0 py-0 min-h-0'
+  'inline-flex items-center justify-center rounded-sm px-7 py-3.5 text-base font-medium transition-colors duration-200 min-h-[48px]'
+const styles = {
+  outline:
+    'border border-[var(--color-clay-500)] text-[var(--color-clay-600)] hover:bg-[var(--color-clay-500)] hover:text-white',
+  solid:
+    'bg-[var(--color-clay-500)] text-white hover:bg-[var(--color-clay-600)]',
+  quiet:
+    'text-[var(--color-ink-700)] underline underline-offset-4 decoration-[var(--color-sand-300)] hover:decoration-[var(--color-clay-500)] px-0 py-0 min-h-0',
+}[variant]
 ---
 <a href={href} class={`${base} ${styles} ${extra}`}><slot /></a>

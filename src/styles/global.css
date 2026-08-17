@@ -5,22 +5,44 @@
    Deliberately NOT clinical blue/white, and light mode only.
    --------------------------------------------------------------- */
 @theme {
-  --color-sand-50:  #faf8f5;
-  --color-sand-100: #f4f0e9;
-  --color-sand-200: #e8e1d5;
-  --color-sand-300: #d6cbb8;
+  --color-sand-50:  #fefdfb;
+  --color-sand-100: #f8f6f2;
+  --color-sand-200: #ede9e3;
+  --color-sand-300: #dad1ca;
   --color-sand-400: #b8a98f;
 
   --color-ink-500:  #6b6255;
   --color-ink-700:  #4a443b;
   --color-ink-900:  #2e2a24;
 
-  --color-clay-400: #b08968;
-  --color-clay-500: #967251;
-  --color-clay-600: #7d5d42;
+  /* Near-black accent ramp. These three MUST stay visually distinct:
+     500 is the base (button fill, borders, focus ring), 600 is the hover
+     state, 400 the soft accent (bullets, input focus). Collapsing them to
+     one value silently removes the solid button's hover feedback. */
+  --color-clay-400: #554e44;
+  --color-clay-500: #2e2a24;
+  --color-clay-600: #17140f;
 
   --font-serif: "Hedvig Letters Serif", Georgia, "Times New Roman", serif;
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Near-square corners. Overriding the scale here retunes every rounded-*
+     utility at once, so page markup needs no per-element radius values.
+     Note: rounded-full is NOT part of this scale (it is a hard-coded pill),
+     so it is deliberately not used for boxes anywhere — only for dots. */
+  /* Single source of truth for page width — every layout container uses
+     max-w-page. Body text is still held to 68ch by .prose-measure, so
+     widening this opens up the layout without stretching the reading line. */
+  --container-page: 76rem;
+
+  --radius-xs:  2px;
+  --radius-sm:  2px;
+  --radius-md:  2px;
+  --radius-lg:  3px;
+  --radius-xl:  3px;
+  --radius-2xl: 4px;
+  --radius-3xl: 4px;
+  --radius-4xl: 4px;
 }
 
 /* Lithuanian needs the latin-ext subset: ą č ę ė į š ų ū ž
@@ -33,6 +55,9 @@
 html {
   scroll-behavior: smooth;
   background-color: var(--color-sand-50);
+  /* Clears the sticky header (~89px with the logo lockup) so #anchor targets
+     aren't hidden under it */
+  scroll-padding-top: 6.5rem;
 }
 
 body {
@@ -53,6 +78,35 @@ h1, h2, h3 {
 
 /* Readable measure everywhere */
 .prose-measure { max-width: 68ch; }
+
+/* ---------------------------------------------------------------
+   Long-form flow for Markdoc output.
+
+   <Content /> wraps everything in a single <article>, so Tailwind's
+   space-y-* on the wrapper (`> * + *`) only ever sees that one child
+   and spaces nothing. Style the article's children instead.
+
+   Headings bind DOWNWARD: a big gap above, a small one below, so a
+   subheading reads as belonging to the text it introduces.
+   Override the paragraph gap per block with [--flow-gap:1rem].
+   --------------------------------------------------------------- */
+.prose-flow > article > * + * { margin-top: var(--flow-gap, 1.25rem); }
+
+.prose-flow > article > h2 { margin-top: 2.75rem; font-size: 1.5rem; }
+.prose-flow > article > h3 { margin-top: 2rem;    font-size: 1.25rem; }
+.prose-flow > article > :is(h2, h3) + * { margin-top: 0.6rem; }
+
+/* First child never needs a top gap — the wrapper's own margin handles it */
+.prose-flow > article > :first-child { margin-top: 0; }
+
+.prose-flow > article :is(ul, ol) {
+  padding-left: 1.5rem;
+  list-style: outside;
+}
+.prose-flow > article ul { list-style-type: disc; }
+.prose-flow > article ol { list-style-type: decimal; }
+.prose-flow > article li + li { margin-top: 0.4rem; }
+.prose-flow > article strong { color: var(--color-ink-900); }
 
 /* Visible focus for keyboard users */
 :focus-visible {

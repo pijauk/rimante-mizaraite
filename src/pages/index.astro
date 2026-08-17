@@ -17,7 +17,7 @@ const faq = await Promise.all(
   image={page.heroImage || undefined}
 >
   <section>
-    <div class="mx-auto grid max-w-5xl items-center gap-12 px-6 py-20 md:grid-cols-[1.15fr_1fr] md:py-28">
+    <div class="mx-auto grid max-w-page items-center gap-12 px-6 py-20 md:grid-cols-[1.15fr_1fr] md:py-28">
       <div>
         <h1 class="text-4xl md:text-5xl">{page.heroHeading}</h1>
         <p class="prose-measure mt-7 text-lg text-[var(--color-ink-500)]">{page.heroIntro}</p>
@@ -79,7 +79,7 @@ const faq = await Promise.all(
           <summary class="cursor-pointer list-none text-lg text-[var(--color-ink-900)]">
             {entry.data.question}
           </summary>
-          <div class="prose-measure mt-3 space-y-4 text-[var(--color-ink-500)]"><Content /></div>
+          <div class="prose-measure prose-flow mt-3 [--flow-gap:1rem] text-[var(--color-ink-500)]"><Content /></div>
         </details>
       ))}
     </div>

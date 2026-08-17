@@ -58,13 +58,14 @@ const jsonLd = {
   <body class="flex min-h-screen flex-col">
     <a
       href="#turinys"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-white focus:px-5 focus:py-3"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-white focus:px-5 focus:py-3"
     >
       Pereiti prie turinio
     </a>
 
     <Header
       practitionerName={settings?.practitionerName ?? ''}
+      professionalTitle={settings?.professionalTitle ?? ''}
       bookingUrl={settings?.bookingUrl ?? '/registracija'}
     />
 
