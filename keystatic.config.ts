@@ -18,7 +18,10 @@ import { config, fields, collection, singleton } from '@keystatic/core'
  * every user in a team can see every project in that team. Create one team
  * per client. Free plan = 3 users per team, unlimited teams and projects.
  */
-const CLOUD_PROJECT = 'your-team/rimante-mizaraite'
+// Format is 'team/project'. Keystatic Cloud shows a ready-to-paste snippet on
+// the project's settings page — confirm the slug there, since the team slug is
+// derived from the team name and may differ from what you typed.
+const CLOUD_PROJECT = 'rimante-mi/rimante-mizaraite'
 
 const useCloud = import.meta.env.PUBLIC_KEYSTATIC_STORAGE === 'cloud'
 
