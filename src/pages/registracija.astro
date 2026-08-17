@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro'
+import Section from '../components/Section.astro'
+import { bookingContent as page, settings } from '../lib/content'
+
+const bookingUrl = settings?.bookingUrl
+---
+<Base title={page.seo?.title ?? 'Registracija'} description={page.seo?.description}>
+  <Section>
+    <div class="prose-measure">
+      <h1 class="text-4xl">{page.heading}</h1>
+      <p class="mt-6 text-lg text-[var(--color-ink-500)]">{page.intro}</p>
+
+      {(page.whatToExpect ?? []).length > 0 && (
+        <ul class="mt-9 space-y-3">
+          {(page.whatToExpect ?? []).map((item: string) => (
+            <li class="flex gap-3">
+              <span aria-hidden="true" class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-clay-400)]"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+    <!-- Booking calendar.
+         Replace with the Cal.com embed script for inline booking. -->
+    <div class="mt-14 rounded-3xl border border-[var(--color-sand-200)] bg-[var(--color-sand-100)] p-8">
+      {bookingUrl ? (
+        <>
+          <p class="text-[var(--color-ink-500)]">Pasirinkite Jums patogų laiką:</p>
+          <div class="mt-6 overflow-hidden rounded-2xl bg-white">
+            <iframe
+              src={bookingUrl}
+              title="Registracijos kalendorius"
+              loading="lazy"
+              class="h-[680px] w-full border-0"
+            ></iframe>
+          </div>
+        </>
+      ) : (
+        <p class="text-[var(--color-ink-500)]">
+          Registracijos kalendorius bus įjungtas netrukus. Kol kas rašykite
+          <a class="underline underline-offset-4" href="/kontaktai"> kontaktų puslapyje</a>.
+        </p>
+      )}
+    </div>
+
+    {page.cancellationPolicy && (
+      <div class="prose-measure mt-12 border-t border-[var(--color-sand-200)] pt-8">
+        <h2 class="text-xl">Atšaukimo sąlygos</h2>
+        <p class="mt-3 text-[var(--color-ink-500)]">{page.cancellationPolicy}</p>
+      </div>
+    )}
+  </Section>
+</Base>

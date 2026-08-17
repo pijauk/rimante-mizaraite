@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro'
+import Section from '../components/Section.astro'
+import Button from '../components/Button.astro'
+import { getFaq } from '../lib/content'
+import { render } from 'astro:content'
+
+const list = await getFaq()
+const faq = await Promise.all(
+  list.map(async (e) => ({ data: e.data, body: e.body ?? '', Content: (await render(e)).Content }))
+)
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({
+    '@type': 'Question',
+    name: f.data.question,
+    acceptedAnswer: { '@type': 'Answer', text: f.body.trim() },
+  })),
+}
+---
+<Base
+  title="Dažniausiai užduodami klausimai"
+  description="Atsakymai į dažniausius klausimus apie psichoterapiją, konsultacijų eigą ir kainas."
+>
+  <Section>
+    <h1 class="text-4xl">Dažniausiai užduodami klausimai</h1>
+    <div class="mt-12 divide-y divide-[var(--color-sand-200)] border-y border-[var(--color-sand-200)]">
+      {faq.map(({ data, Content }) => (
+        <details class="py-6">
+          <summary class="cursor-pointer list-none text-lg text-[var(--color-ink-900)]">
+            {data.question}
+          </summary>
+          <div class="prose-measure mt-4 space-y-4 text-[var(--color-ink-500)]"><Content /></div>
+        </details>
+      ))}
+    </div>
+    <div class="mt-14"><Button href="/registracija">Nemokamas 15 min. pokalbis</Button></div>
+  </Section>
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} is:inline />
+</Base>

@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro'
+import Section from '../components/Section.astro'
+import { contactContent as page, settings } from '../lib/content'
+
+---
+<Base title={page.seo?.title ?? 'Kontaktai'} description={page.seo?.description}>
+  <Section>
+    <div class="grid gap-14 md:grid-cols-2">
+      <div>
+        <h1 class="text-4xl">{page.heading}</h1>
+        <p class="prose-measure mt-6 text-lg text-[var(--color-ink-500)]">{page.intro}</p>
+
+        <dl class="mt-10 space-y-5 text-[var(--color-ink-700)]">
+          {settings?.email && (
+            <div>
+              <dt class="text-sm text-[var(--color-ink-500)]">El. paštas</dt>
+              <dd><a class="underline underline-offset-4" href={`mailto:${settings.email}`}>{settings.email}</a></dd>
+            </div>
+          )}
+          {settings?.phone && (
+            <div>
+              <dt class="text-sm text-[var(--color-ink-500)]">Telefonas</dt>
+              <dd><a class="underline underline-offset-4" href={`tel:${settings.phone}`}>{settings.phone}</a></dd>
+            </div>
+          )}
+          {settings?.address?.street && (
+            <div>
+              <dt class="text-sm text-[var(--color-ink-500)]">Adresas</dt>
+              <dd>{settings.address.street}, {settings.address.postalCode} {settings.address.city}</dd>
+            </div>
+          )}
+        </dl>
+
+        {page.travelInfo && (
+          <p class="prose-measure mt-8 text-sm text-[var(--color-ink-500)]">{page.travelInfo}</p>
+        )}
+      </div>
+
+      <!-- Contact form.
+           Posts to email only. Do NOT enable submission storage on the form
+           provider — see CLAUDE.md. -->
+      <form
+        class="rounded-3xl border border-[var(--color-sand-200)] bg-[var(--color-sand-100)] p-8"
+        method="POST"
+        action="#"
+      >
+        <div class="space-y-5">
+          <div>
+            <label class="block text-sm text-[var(--color-ink-500)]" for="name">Vardas</label>
+            <input
+              id="name" name="name" type="text" required autocomplete="name"
+              class="mt-2 w-full rounded-xl border border-[var(--color-sand-300)] bg-white px-4 py-3 focus:border-[var(--color-clay-400)] focus:outline-none"
+            />
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--color-ink-500)]" for="email">El. paštas</label>
+            <input
+              id="email" name="email" type="email" required autocomplete="email"
+              class="mt-2 w-full rounded-xl border border-[var(--color-sand-300)] bg-white px-4 py-3 focus:border-[var(--color-clay-400)] focus:outline-none"
+            />
+          </div>
+          <div>
+            <label class="block text-sm text-[var(--color-ink-500)]" for="message">Kuo galėčiau padėti?</label>
+            <textarea
+              id="message" name="message" rows="5" required
+              class="mt-2 w-full rounded-xl border border-[var(--color-sand-300)] bg-white px-4 py-3 focus:border-[var(--color-clay-400)] focus:outline-none"
+            ></textarea>
+            {page.formNotice && (
+              <p class="mt-2 text-xs text-[var(--color-ink-500)]">{page.formNotice}</p>
+            )}
+          </div>
+
+          <label class="flex items-start gap-3 text-sm text-[var(--color-ink-500)]">
+            <input type="checkbox" name="consent" required class="mt-1.5" />
+            <span>
+              Sutinku, kad mano duomenys būtų naudojami atsakymui pateikti pagal
+              <a href="/privatumo-politika" class="underline underline-offset-4">privatumo politiką</a>.
+            </span>
+          </label>
+
+          <button
+            type="submit"
+            class="min-h-[48px] w-full rounded-full bg-[var(--color-clay-500)] px-7 py-3.5 font-medium text-white transition-colors hover:bg-[var(--color-clay-600)]"
+          >
+            Siųsti žinutę
+          </button>
+        </div>
+      </form>
+    </div>
+  </Section>
+</Base>

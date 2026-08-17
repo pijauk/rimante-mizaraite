@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro'
+import Section from '../components/Section.astro'
+import Button from '../components/Button.astro'
+import { getServices } from '../lib/content'
+import { render } from 'astro:content'
+
+const list = await getServices()
+const services = await Promise.all(
+  list.map(async (e) => ({ data: e.data, Content: (await render(e)).Content }))
+)
+---
+<Base
+  title="Kainos"
+  description="Psichoterapijos konsultacijų kainos ir trukmė. Skaidrios kainos, be paslėptų mokesčių."
+>
+  <Section>
+    <h1 class="text-4xl">Kainos</h1>
+    <p class="prose-measure mt-6 text-lg text-[var(--color-ink-500)]">
+      Kainos nurodytos už vieną konsultaciją. Susipažinimo pokalbis nemokamas.
+    </p>
+
+    <div class="mt-14 space-y-10">
+      {services.map(({ data, Content }) => (
+        <div class="border-t border-[var(--color-sand-200)] pt-7">
+          <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+            <h2 class="text-2xl">{data.title}</h2>
+            <p class="text-lg text-[var(--color-ink-900)]">{data.price}</p>
+          </div>
+          <p class="mt-1 text-sm text-[var(--color-ink-500)]">{data.duration}</p>
+          <div class="prose-measure mt-4 space-y-4 text-[var(--color-ink-500)]"><Content /></div>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-14"><Button href="/registracija">Nemokamas 15 min. pokalbis</Button></div>
+  </Section>
+</Base>

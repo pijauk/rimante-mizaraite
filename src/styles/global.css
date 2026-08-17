@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   Design tokens — warm neutral palette.
+   Deliberately NOT clinical blue/white, and light mode only.
+   --------------------------------------------------------------- */
+@theme {
+  --color-sand-50:  #faf8f5;
+  --color-sand-100: #f4f0e9;
+  --color-sand-200: #e8e1d5;
+  --color-sand-300: #d6cbb8;
+  --color-sand-400: #b8a98f;
+
+  --color-ink-500:  #6b6255;
+  --color-ink-700:  #4a443b;
+  --color-ink-900:  #2e2a24;
+
+  --color-clay-400: #b08968;
+  --color-clay-500: #967251;
+  --color-clay-600: #7d5d42;
+
+  --font-serif: "Lora", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* Lithuanian needs the latin-ext subset: ą č ę ė į š ų ū ž
+   Both Lora and Inter ship it. Verify any font swap against real copy. */
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-sand-50);
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink-700);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  color: var(--color-ink-900);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+/* Readable measure everywhere */
+.prose-measure { max-width: 68ch; }
+
+/* Visible focus for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--color-clay-500);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

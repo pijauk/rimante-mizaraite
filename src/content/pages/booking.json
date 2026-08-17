@@ -1,0 +1,15 @@
+{
+  "seo": {
+    "title": "Registracija konsultacijai | Rimantė Mizaraitė",
+    "description": "Nemokamas 15 minučių susipažinimo pokalbis. Pasirinkite Jums patogų laiką kalendoriuje."
+  },
+  "heading": "Nemokamas susipažinimo pokalbis",
+  "intro": "Prieš pradedant terapiją susitinkame trumpam pokalbiui telefonu arba vaizdo skambučiu. Jis trunka apie penkiolika minučių ir yra nemokamas.",
+  "whatToExpect": [
+    "Trumpai papasakosite, kas Jus atvedė.",
+    "Papasakosiu, kaip dirbu ir ko galima tikėtis.",
+    "Kartu nuspręsime, ar verta tęsti — ir jei ne, pasiūlysiu kitų specialistų.",
+    "Jokio įsipareigojimo tęsti."
+  ],
+  "cancellationPolicy": "Konsultaciją galima nemokamai atšaukti likus ne mažiau kaip 24 valandoms. Vėliau atšauktos ar neatvykus praleistos konsultacijos apmokamos visa kaina."
+}

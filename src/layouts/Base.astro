@@ -1,0 +1,77 @@
+---
+import '../styles/global.css'
+import Seo from '../components/Seo.astro'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import { settings } from '../lib/content'
+
+interface Props {
+  title: string
+  description?: string
+  image?: string
+}
+const { title, description, image } = Astro.props
+
+
+const origin = (Astro.site ?? Astro.url.origin).toString().replace(/\/$/, '')
+
+// LocalBusiness structured data — a real local-search advantage, and the
+// thing hosted builders make you hand-inject.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': ['LocalBusiness', 'MedicalBusiness'],
+  name: settings?.practitionerName,
+  description: settings?.tagline,
+  url: origin,
+  email: settings?.email,
+  telephone: settings?.phone,
+  priceRange: settings?.priceRange,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: settings?.address?.street,
+    addressLocality: settings?.address?.city,
+    postalCode: settings?.address?.postalCode,
+    addressCountry: 'LT',
+  },
+  openingHours: (settings?.openingHours ?? []).map((h: any) => `${h.days} ${h.hours}`),
+}
+---
+<!doctype html>
+<html lang="lt">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- subset=latin-ext is what carries the Lithuanian diacritics -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=Inter:wght@400;500&display=swap&subset=latin-ext"
+      rel="stylesheet"
+    />
+
+    <Seo title={title} description={description} image={image} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#turinys"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-white focus:px-5 focus:py-3"
+    >
+      Pereiti prie turinio
+    </a>
+
+    <Header
+      practitionerName={settings?.practitionerName ?? ''}
+      bookingUrl={settings?.bookingUrl ?? '/registracija'}
+    />
+
+    <main id="turinys" class="flex-1">
+      <slot />
+    </main>
+
+    <Footer settings={settings} />
+  </body>
+</html>

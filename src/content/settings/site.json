@@ -1,0 +1,24 @@
+{
+  "practitionerName": "Rimantė Mizaraitė",
+  "professionalTitle": "Psichologė, psichoterapeutė",
+  "tagline": "Individualios psichoterapijos konsultacijos Vilniuje ir internetu.",
+  "email": "labas@pavyzdys.lt",
+  "phone": "+370 600 00000",
+  "bookingUrl": "https://cal.com/pavyzdys/15min",
+  "address": {
+    "street": "Pavyzdžio g. 1",
+    "city": "Vilnius",
+    "postalCode": "01100"
+  },
+  "openingHours": [
+    {
+      "days": "I–IV",
+      "hours": "10:00–19:00"
+    },
+    {
+      "days": "V",
+      "hours": "10:00–15:00"
+    }
+  ],
+  "priceRange": "€€"
+}

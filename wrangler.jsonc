@@ -1,0 +1,8 @@
+{
+  "name": "rimante-mizaraite",
+  "compatibility_date": "2026-08-01",
+  // nodejs_compat is required by the Astro Cloudflare adapter.
+  // disable_nodejs_process_v2 works around a known bug where nodejs_compat
+  // makes non-prerendered routes return "[object Object]".
+  "compatibility_flags": ["nodejs_compat", "disable_nodejs_process_v2"]
+}

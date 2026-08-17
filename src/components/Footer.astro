@@ -1,0 +1,42 @@
+---
+interface Props {
+  settings: any
+}
+const { settings } = Astro.props
+const year = new Date().getFullYear()
+---
+<footer class="border-t border-[var(--color-sand-200)] bg-[var(--color-sand-100)]">
+  <div class="mx-auto grid max-w-5xl gap-10 px-6 py-16 sm:grid-cols-3">
+    <div>
+      <p class="font-serif text-lg text-[var(--color-ink-900)]">{settings?.practitionerName}</p>
+      <p class="mt-1 text-sm text-[var(--color-ink-500)]">{settings?.professionalTitle}</p>
+    </div>
+
+    <div class="text-sm">
+      <p class="mb-2 font-medium text-[var(--color-ink-900)]">Kontaktai</p>
+      {settings?.email && <p><a class="hover:underline" href={`mailto:${settings.email}`}>{settings.email}</a></p>}
+      {settings?.phone && <p><a class="hover:underline" href={`tel:${settings.phone}`}>{settings.phone}</a></p>}
+      {settings?.address?.street && (
+        <p class="mt-2 text-[var(--color-ink-500)]">
+          {settings.address.street}, {settings.address.city}
+        </p>
+      )}
+    </div>
+
+    <div class="text-sm">
+      <p class="mb-2 font-medium text-[var(--color-ink-900)]">Darbo laikas</p>
+      {(settings?.openingHours ?? []).map((h: any) => (
+        <p class="text-[var(--color-ink-500)]">{h.days} {h.hours}</p>
+      ))}
+      <p class="mt-4">
+        <a href="/privatumo-politika" class="hover:underline">Privatumo politika</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="border-t border-[var(--color-sand-200)]">
+    <div class="mx-auto max-w-5xl px-6 py-6 text-xs text-[var(--color-ink-500)]">
+      &copy; {year} {settings?.practitionerName}
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,53 @@
+---
+import Button from './Button.astro'
+interface Props { practitionerName: string; bookingUrl: string }
+const { practitionerName, bookingUrl } = Astro.props
+const nav = [
+  { href: '/apie', label: 'Apie mane' },
+  { href: '/kaip-vyksta', label: 'Kaip vyksta' },
+  { href: '/kainos', label: 'Kainos' },
+  { href: '/duk', label: 'D.U.K.' },
+  { href: '/kontaktai', label: 'Kontaktai' },
+]
+const path = Astro.url.pathname
+---
+<header class="border-b border-[var(--color-sand-200)]">
+  <div class="mx-auto flex max-w-5xl items-center justify-between gap-6 px-6 py-5">
+    <a href="/" class="font-serif text-lg text-[var(--color-ink-900)] whitespace-nowrap">
+      {practitionerName}
+    </a>
+
+    <nav class="hidden items-center gap-7 md:flex" aria-label="Pagrindinis meniu">
+      {nav.map((item) => (
+        <a
+          href={item.href}
+          aria-current={path === item.href ? 'page' : undefined}
+          class={`text-[0.95rem] transition-colors hover:text-[var(--color-clay-600)] ${
+            path === item.href
+              ? 'text-[var(--color-ink-900)]'
+              : 'text-[var(--color-ink-500)]'
+          }`}
+        >
+          {item.label}
+        </a>
+      ))}
+      <Button href="/registracija" class="ml-1 !px-5 !py-2.5 text-sm">Registruotis</Button>
+    </nav>
+
+    <details class="relative md:hidden">
+      <summary class="list-none cursor-pointer rounded-full border border-[var(--color-sand-300)] px-4 py-2 text-sm">
+        Meniu
+      </summary>
+      <div class="absolute right-0 z-20 mt-3 w-56 rounded-2xl border border-[var(--color-sand-200)] bg-[var(--color-sand-50)] p-3 shadow-lg">
+        {nav.map((item) => (
+          <a href={item.href} class="block rounded-xl px-3 py-2.5 hover:bg-[var(--color-sand-100)]">
+            {item.label}
+          </a>
+        ))}
+        <a href="/registracija" class="mt-1 block rounded-xl bg-[var(--color-clay-500)] px-3 py-2.5 text-center text-white">
+          Registruotis
+        </a>
+      </div>
+    </details>
+  </div>
+</header>

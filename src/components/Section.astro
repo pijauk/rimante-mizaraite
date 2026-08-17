@@ -1,0 +1,13 @@
+---
+interface Props {
+  tone?: 'base' | 'raised'
+  class?: string
+}
+const { tone = 'base', class: extra = '' } = Astro.props
+const bg = tone === 'raised' ? 'bg-[var(--color-sand-100)]' : ''
+---
+<section class={`${bg} ${extra}`}>
+  <div class="mx-auto max-w-5xl px-6 py-20 md:py-28">
+    <slot />
+  </div>
+</section>

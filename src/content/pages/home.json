@@ -1,0 +1,31 @@
+{
+  "seo": {
+    "title": "Psichoterapija Vilniuje ir internetu | Rimantė Mizaraitė",
+    "description": "Individualios psichoterapijos konsultacijos suaugusiems. Nemokamas 15 min. susipažinimo pokalbis. Vilniuje arba internetu."
+  },
+  "heroHeading": "Erdvė pokalbiui, kai sunku",
+  "heroIntro": "Dirbu su suaugusiaisiais, kurie išgyvena nerimą, perdegimą ar sunkumus santykiuose. Pirmas žingsnis — nemokamas penkiolikos minučių pokalbis, kad nuspręstumėte, ar norite tęsti.",
+  "heroImage": "",
+  "heroImageAlt": "",
+  "helpWithHeading": "Su kuo dirbu",
+  "helpWith": [
+    {
+      "title": "Nerimas ir įtampa",
+      "description": "Nuolatinis nerimas, panikos priepuoliai, sunkumai atsipalaiduoti ar užmigti."
+    },
+    {
+      "title": "Perdegimas",
+      "description": "Išsekimas darbe, motyvacijos praradimas, jausmas, kad nebeturite iš ko duoti."
+    },
+    {
+      "title": "Santykiai",
+      "description": "Sunkumai artimuose santykiuose, pasikartojantys konfliktai, vienišumas."
+    },
+    {
+      "title": "Savivertė",
+      "description": "Nuolatinė savikritika, sunkumai priimti sprendimus, jausmas, kad esate nepakankami."
+    }
+  ],
+  "closingHeading": "Nesate tikri, ar Jums to reikia?",
+  "closingText": "Daugelis žmonių delsia metų metus, nes galvoja, kad jų sunkumai „nepakankamai rimti“. Susipažinimo pokalbis nieko neįpareigoja — jo metu galime kartu pasižiūrėti, ar psichoterapija Jums tinka."
+}
