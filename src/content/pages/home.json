@@ -5,8 +5,7 @@
   },
   "heroHeading": "Erdvė pokalbiui, kai sunku",
   "heroIntro": "Dirbu su suaugusiaisiais, kurie išgyvena nerimą, perdegimą ar sunkumus santykiuose. Pirmas žingsnis — nemokamas penkiolikos minučių pokalbis, kad nuspręstumėte, ar norite tęsti.",
-  "heroImage": null,
-  "heroImageAlt": "",
+  "heroImage": "/images/home/heroImage.jpg",
   "helpWithHeading": "Su kuo dirbu",
   "helpWith": [
     {
