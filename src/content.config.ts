@@ -50,6 +50,8 @@ const pages = defineCollection({
     intro: z.string().nullable().optional(),
     portrait: z.string().nullable().optional(),
     portraitAlt: z.string().nullable().optional(),
+    roomImage: z.string().nullable().optional(),
+    roomImageAlt: z.string().nullable().optional(),
     lastUpdated: z.string().nullable().optional(),
     firstSessionHeading: z.string().nullable().optional(),
     firstSessionText: z.string().nullable().optional(),

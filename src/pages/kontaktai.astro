@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro'
 import Section from '../components/Section.astro'
+import MediaBand from '../components/MediaBand.astro'
 import { contactContent as page, settings } from '../lib/content'
 
 ---
@@ -89,4 +90,11 @@ import { contactContent as page, settings } from '../lib/content'
       </form>
     </div>
   </Section>
+
+  <MediaBand
+    src={page.entranceImage}
+    alt={page.entranceImageAlt}
+    ratio="21 / 9"
+    label="Vieta pastato / įėjimo nuotraukai"
+  />
 </Base>

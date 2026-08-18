@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro'
 import Section from '../components/Section.astro'
 import Button from '../components/Button.astro'
+import MediaBand from '../components/MediaBand.astro'
 import { homeContent as page, getServices, getFaq } from '../lib/content'
 import { render } from 'astro:content'
 
@@ -16,23 +17,30 @@ const faq = await Promise.all(
   description={page.seo?.description}
   image={page.heroImage || undefined}
 >
-  <section>
-    <div class="mx-auto grid max-w-page items-center gap-12 px-6 py-20 md:grid-cols-[1.15fr_1fr] md:py-28">
-      <div>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl">{page.heroHeading}</h1>
-        <p class="prose-measure mt-7 text-lg text-[var(--color-ink-500)]">{page.heroIntro}</p>
-        <div class="mt-10 flex flex-wrap items-center gap-6">
-          <Button href="/registracija">Nemokamas 15 min. pokalbis</Button>
-          <Button href="/kontaktai" variant="quiet">Turite klausimų?</Button>
-        </div>
+  <section class="hero">
+    <div class="hero-copy">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl">{page.heroHeading}</h1>
+      <p class="prose-measure mt-7 text-lg text-[var(--color-ink-500)]">{page.heroIntro}</p>
+      <div class="mt-10 flex flex-wrap items-center gap-6">
+        <Button href="/registracija">Nemokamas 15 min. pokalbis</Button>
+        <Button href="/kontaktai" variant="quiet">Turite klausimų?</Button>
       </div>
+    </div>
 
+    <div class="hero-media">
       {page.heroImage ? (
-        <div class="overflow-hidden rounded-3xl bg-[var(--color-sand-200)]">
-          <img src={page.heroImage} alt={page.heroImageAlt ?? ''} width="720" height="900" class="h-full w-full object-cover" />
-        </div>
+        <img
+          src={page.heroImage}
+          alt={page.heroImageAlt ?? ''}
+          width="900"
+          height="1100"
+          fetchpriority="high"
+          class="media-fill max-md:aspect-[4/3]"
+        />
       ) : (
-        <div class="flex aspect-[4/5] items-center justify-center rounded-3xl bg-[var(--color-sand-200)] text-sm text-[var(--color-ink-500)]">
+        <div
+          class="flex h-full w-full items-center justify-center bg-[var(--color-sand-200)] text-sm text-[var(--color-ink-500)] max-md:aspect-[4/3]"
+        >
           Vieta nuotraukai
         </div>
       )}
@@ -87,6 +95,8 @@ const faq = await Promise.all(
       <a href="/duk" class="underline underline-offset-4 hover:text-[var(--color-clay-600)]">Visi klausimai</a>
     </p>
   </Section>
+
+  <MediaBand src={page.midImage} alt={page.midImageAlt} ratio="21 / 9" />
 
   <Section>
     <div class="prose-measure">

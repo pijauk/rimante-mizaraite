@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro'
 import Section from '../components/Section.astro'
 import Button from '../components/Button.astro'
+import MediaBand from '../components/MediaBand.astro'
 import { getPage } from '../lib/content'
 import { render } from 'astro:content'
 
@@ -45,4 +46,6 @@ const d = page!.data
       </div>
     </div>
   </Section>
+
+  <MediaBand src={d.roomImage} alt={d.roomImageAlt} ratio="21 / 9" label="Vieta kabineto nuotraukai" />
 </Base>

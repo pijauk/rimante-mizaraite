@@ -26,15 +26,19 @@
   --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* Near-square corners. Overriding the scale here retunes every rounded-*
-     utility at once, so page markup needs no per-element radius values.
-     Note: rounded-full is NOT part of this scale (it is a hard-coded pill),
-     so it is deliberately not used for boxes anywhere — only for dots. */
   /* Single source of truth for page width — every layout container uses
      max-w-page. Body text is still held to 68ch by .prose-measure, so
      widening this opens up the layout without stretching the reading line. */
   --container-page: 76rem;
 
+  /* Sticky header height. Drives the hero's viewport fit and the
+     scroll offset for #anchor targets — keep the three in step. */
+  --header-h: 5.75rem;
+
+  /* Near-square corners. Overriding the scale here retunes every rounded-*
+     utility at once, so page markup needs no per-element radius values.
+     Note: rounded-full is NOT part of this scale (it is a hard-coded pill),
+     so it is deliberately not used for boxes anywhere — only for dots. */
   --radius-xs:  2px;
   --radius-sm:  2px;
   --radius-md:  2px;
@@ -55,9 +59,8 @@
 html {
   scroll-behavior: smooth;
   background-color: var(--color-sand-50);
-  /* Clears the sticky header (~89px with the logo lockup) so #anchor targets
-     aren't hidden under it */
-  scroll-padding-top: 6.5rem;
+  /* Clears the sticky header so #anchor targets aren't hidden under it */
+  scroll-padding-top: calc(var(--header-h) + 0.75rem);
 }
 
 body {
@@ -115,6 +118,92 @@ h3 { line-height: 1.3;  letter-spacing: -0.006em; }
 .prose-flow > article ol { list-style-type: decimal; }
 .prose-flow > article li + li { margin-top: 0.4rem; }
 .prose-flow > article strong { color: var(--color-ink-900); }
+
+/* ---------------------------------------------------------------
+   Full-bleed layout.
+
+   House style: principal images are blocks that run out to the
+   viewport edge rather than sitting inside the text column.
+
+   .page-grid keeps a centred content column the same width as
+   max-w-page, plus rails either side. Children sit in the content
+   column by default; .to-edge escapes to both viewport edges.
+   --------------------------------------------------------------- */
+.page-grid {
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(1.25rem, 1fr)
+    [content-start] minmax(0, var(--container-page))
+    [content-end] minmax(1.25rem, 1fr)
+    [full-end];
+}
+.page-grid > * { grid-column: content-start / content-end; }
+.page-grid > .to-edge { grid-column: full-start / full-end; }
+
+/* ---------------------------------------------------------------
+   Hero.
+
+   The media column dictated the row height before, so a tall image
+   pushed the copy far down the page and the whole block overflowed
+   the first screen. Now the hero owns its height — one screen minus
+   the header, capped — and the copy centres inside that, while the
+   media stretches to fill it and runs off the right edge.
+
+   The split line subdivides the content column exactly, so the copy
+   still starts on the same left edge as every other section without
+   resorting to 100vw maths (which breaks when a scrollbar is present).
+   --------------------------------------------------------------- */
+.hero {
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(1.25rem, 1fr)
+    [content-start] minmax(0, var(--container-page))
+    [content-end] minmax(1.25rem, 1fr)
+    [full-end];
+  row-gap: 2.75rem;
+  padding-block: 3.5rem 0;
+}
+.hero > .hero-copy { grid-column: content-start / content-end; }
+.hero > .hero-media { grid-column: full-start / full-end; }
+
+@media (min-width: 768px) {
+  .hero {
+    grid-template-columns:
+      [full-start] minmax(1.5rem, 1fr)
+      [content-start] minmax(0, calc(var(--container-page) * 0.54))
+      [split] minmax(0, calc(var(--container-page) * 0.46))
+      [content-end] minmax(1.5rem, 1fr)
+      [full-end];
+    align-items: center;
+    min-height: min(calc(100svh - var(--header-h)), 44rem);
+    padding-block: 0;
+    row-gap: 0;
+  }
+  .hero > .hero-copy {
+    grid-column: content-start / split;
+    padding-right: 3.5rem;
+    padding-block: 3.5rem;
+  }
+  .hero > .hero-media {
+    grid-column: split / full-end;
+    align-self: stretch;
+  }
+}
+
+/* Media blocks fill whatever box they are given */
+.media-fill { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* Full-bleed photograph band.
+   Nearly square on phones, where a cinematic crop would collapse to a
+   sliver; wide on larger screens. The height cap stops the band eating a
+   whole desktop screen on very wide monitors — object-fit handles the crop. */
+.media-band {
+  aspect-ratio: 4 / 3;
+  max-height: 34rem;
+}
+@media (min-width: 768px) {
+  .media-band { aspect-ratio: var(--band-ratio, 21 / 9); }
+}
 
 /* Visible focus for keyboard users */
 :focus-visible {

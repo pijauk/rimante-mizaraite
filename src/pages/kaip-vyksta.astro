@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro'
 import Section from '../components/Section.astro'
 import Button from '../components/Button.astro'
+import MediaBand from '../components/MediaBand.astro'
 import { getPage, getServices } from '../lib/content'
 import { render } from 'astro:content'
 
@@ -18,6 +19,8 @@ const services = await getServices()
       <Content />
     </div>
   </Section>
+
+  <MediaBand src={d.roomImage} alt={d.roomImageAlt} ratio="21 / 9" label="Vieta kabineto nuotraukai" />
 
   <Section tone="raised">
     <h2 class="text-3xl md:text-4xl">{d.firstSessionHeading}</h2>

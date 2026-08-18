@@ -20,8 +20,12 @@ const path = Astro.url.pathname
   class="sticky top-0 z-30 border-b border-[var(--color-sand-200)] bg-[var(--color-sand-50)]/85 backdrop-blur-md"
 >
   <div class="mx-auto flex max-w-page items-center justify-between gap-6 px-6 py-5">
+    <!-- Logo height is matched to the two-line text block beside it:
+         name (leading-tight) + 2px gap + title (leading-snug).
+         44px at base (20+2+12px type), 51px from md (24+2+14px type).
+         Re-derive these if the lockup type sizes change. -->
     <a href="/" class="flex items-center gap-2.5 text-[var(--color-ink-900)]">
-      <Logo class="h-10 w-auto shrink-0 md:h-11" />
+      <Logo class="h-11 w-auto shrink-0 md:h-[3.2rem]" />
       <span class="min-w-0">
         <span
           class="block font-serif text-xl leading-tight tracking-[-0.012em] whitespace-nowrap md:text-2xl"

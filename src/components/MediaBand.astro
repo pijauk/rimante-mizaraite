@@ -1,0 +1,41 @@
+---
+/**
+ * Full-bleed photograph band — the site's house treatment for principal
+ * images: a block running the full width of the viewport rather than sitting
+ * inside the text column.
+ *
+ * LEGAL: permitted subjects only — the empty consulting room, the building
+ * entrance, quiet detail shots, or the therapist alone. Never anything that
+ * reads as a client or a session (Reklamos įstatymas 15 str.). The Keystatic
+ * field descriptions repeat this where these images are uploaded.
+ *
+ * Renders a labelled placeholder when no image is set, so the slot stays
+ * visible before the photographs arrive.
+ */
+interface Props {
+  src?: string | null
+  alt?: string | null
+  /** wide-screen aspect ratio; phones always use a squarer crop */
+  ratio?: string
+  label?: string
+  class?: string
+}
+const {
+  src,
+  alt,
+  ratio = '21 / 9',
+  label = 'Vieta nuotraukai',
+  class: extra = '',
+} = Astro.props
+---
+<div class={`to-edge media-band ${extra}`} style={`--band-ratio: ${ratio}`}>
+  {src ? (
+    <img src={src} alt={alt ?? ''} loading="lazy" decoding="async" class="media-fill" />
+  ) : (
+    <div
+      class="flex h-full w-full items-center justify-center bg-[var(--color-sand-200)] text-sm text-[var(--color-ink-500)]"
+    >
+      {label}
+    </div>
+  )}
+</div>

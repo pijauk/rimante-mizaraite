@@ -132,6 +132,14 @@ export default config({
           }),
           { label: 'Sritys', itemLabel: (p) => p.fields.title.value }
         ),
+        midImage: fields.image({
+          label: 'Plati nuotrauka (per visą plotį)',
+          directory: 'public/images/home',
+          publicPath: '/images/home/',
+          description:
+            'TEISINĖ PASTABA: tik tuščias kabinetas, pastato įėjimas ar detalė be žmonių. NEGALIMA vaizduoti kliento ar konsultacijos.',
+        }),
+        midImageAlt: fields.text({ label: 'Nuotraukos alt tekstas' }),
         closingHeading: fields.text({ label: 'Baigiamoji antraštė' }),
         closingText: fields.text({ label: 'Baigiamasis tekstas', multiline: true }),
       },
@@ -150,6 +158,14 @@ export default config({
           publicPath: '/images/about/',
         }),
         portraitAlt: fields.text({ label: 'Alt tekstas' }),
+        roomImage: fields.image({
+          label: 'Kabineto nuotrauka (per visą plotį)',
+          directory: 'public/images/about',
+          publicPath: '/images/about/',
+          description:
+            'TEISINĖ PASTABA: tik tuščias kabinetas, pastato įėjimas ar detalė be žmonių. NEGALIMA vaizduoti kliento ar konsultacijos.',
+        }),
+        roomImageAlt: fields.text({ label: 'Nuotraukos alt tekstas' }),
         content: fields.markdoc({ label: 'Tekstas' }),
         qualifications: fields.array(
           fields.object({
@@ -170,6 +186,14 @@ export default config({
         seo: seoFields(),
         heading: fields.text({ label: 'Antraštė', defaultValue: 'Kaip vyksta konsultacijos' }),
         intro: fields.text({ label: 'Įžanga', multiline: true }),
+        roomImage: fields.image({
+          label: 'Kabineto nuotrauka (per visą plotį)',
+          directory: 'public/images/approach',
+          publicPath: '/images/approach/',
+          description:
+            'TEISINĖ PASTABA: tik tuščias kabinetas, pastato įėjimas ar detalė be žmonių. NEGALIMA vaizduoti kliento ar konsultacijos.',
+        }),
+        roomImageAlt: fields.text({ label: 'Nuotraukos alt tekstas' }),
         content: fields.markdoc({ label: 'Tekstas' }),
         firstSessionHeading: fields.text({
           label: 'Pirmo susitikimo antraštė',
@@ -206,6 +230,14 @@ export default config({
         seo: seoFields(),
         heading: fields.text({ label: 'Antraštė', defaultValue: 'Kontaktai' }),
         intro: fields.text({ label: 'Įžanga', multiline: true }),
+        entranceImage: fields.image({
+          label: 'Įėjimo / pastato nuotrauka (per visą plotį)',
+          directory: 'public/images/contact',
+          publicPath: '/images/contact/',
+          description:
+            'Padeda klientui rasti kabinetą. TIK pastatas, įėjimas ar tuščias kabinetas — be žmonių.',
+        }),
+        entranceImageAlt: fields.text({ label: 'Nuotraukos alt tekstas' }),
         formNotice: fields.text({
           label: 'Pastaba prie formos',
           multiline: true,
