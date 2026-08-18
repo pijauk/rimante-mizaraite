@@ -15,20 +15,12 @@
 interface Props {
   src?: string | null
   alt?: string | null
-  /** wide-screen aspect ratio; phones always use a squarer crop */
-  ratio?: string
   label?: string
   class?: string
 }
-const {
-  src,
-  alt,
-  ratio = '21 / 9',
-  label = 'Vieta nuotraukai',
-  class: extra = '',
-} = Astro.props
+const { src, alt, label = 'Vieta nuotraukai', class: extra = '' } = Astro.props
 ---
-<div class={`to-edge media-band ${extra}`} style={`--band-ratio: ${ratio}`}>
+<div class={`to-edge media-band ${extra}`}>
   {src ? (
     <img src={src} alt={alt ?? ''} loading="lazy" decoding="async" class="media-fill" />
   ) : (

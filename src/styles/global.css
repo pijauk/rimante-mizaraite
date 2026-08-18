@@ -194,15 +194,20 @@ h3 { line-height: 1.3;  letter-spacing: -0.006em; }
 .media-fill { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* Full-bleed photograph band.
-   Nearly square on phones, where a cinematic crop would collapse to a
-   sliver; wide on larger screens. The height cap stops the band eating a
-   whole desktop screen on very wide monitors — object-fit handles the crop. */
+   Shorter on phones relative to width would collapse to a sliver, so the
+   height is a proportion of the viewport, capped so the band cannot eat a
+   whole desktop screen. object-fit handles the crop.
+
+   Height is set directly rather than via aspect-ratio + max-height: those
+   two together make the browser SHRINK THE WIDTH to preserve the ratio once
+   the cap binds, so the band stopped reaching the viewport edges on wide
+   screens (at 2000px it rendered 1269px wide — 544px cap x 21/9). Setting
+   height alone keeps the box full width at every size. */
 .media-band {
-  aspect-ratio: 4 / 3;
-  max-height: 34rem;
+  height: clamp(15rem, 72vw, 22rem);
 }
 @media (min-width: 768px) {
-  .media-band { aspect-ratio: var(--band-ratio, 21 / 9); }
+  .media-band { height: clamp(20rem, 40vw, 34rem); }
 }
 
 /* Visible focus for keyboard users */
