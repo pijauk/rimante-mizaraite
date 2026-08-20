@@ -6,7 +6,6 @@
   "heroHeading": "Erdvė pokalbiui, kai sunku",
   "heroIntro": "Dirbu su suaugusiaisiais, kurie išgyvena nerimą, perdegimą ar sunkumus santykiuose. Pirmas žingsnis — nemokamas penkiolikos minučių pokalbis, kad nuspręstumėte, ar norite tęsti.",
   "heroImage": "/images/home/heroImage.jpg",
-  "heroImageAlt": "",
   "helpWithHeading": "Su kuo dirbu",
   "helpWith": [
     {
@@ -26,8 +25,7 @@
       "description": "Nuolatinė savikritika, sunkumai priimti sprendimus, jausmas, kad esate nepakankami."
     }
   ],
-  "midImage": null,
-  "midImageAlt": "",
+  "midImage": "/images/home/midImage.jpg",
   "closingHeading": "Nesate tikri, ar Jums to reikia?",
   "closingText": "Daugelis žmonių delsia metų metus, nes galvoja, kad jų sunkumai „nepakankamai rimti“. Susipažinimo pokalbis nieko neįpareigoja — jo metu galime kartu pasižiūrėti, ar psichoterapija Jums tinka."
 }
