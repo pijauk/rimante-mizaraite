@@ -22,7 +22,7 @@ const faq = await Promise.all(
       <h1 class="text-4xl sm:text-5xl md:text-6xl">{page.heroHeading}</h1>
       <p class="prose-measure mt-7 text-lg text-[var(--color-ink-500)]">{page.heroIntro}</p>
       <div class="mt-10 flex flex-wrap items-center gap-6">
-        <Button href="/registracija">Nemokamas 15 min. pokalbis</Button>
+        <Button booking>Nemokamas 15 min. pokalbis</Button>
         <Button href="/kontaktai" variant="quiet">Turite klausimų?</Button>
       </div>
     </div>
@@ -32,14 +32,11 @@ const faq = await Promise.all(
         <img
           src={page.heroImage}
           alt={page.heroImageAlt ?? ''}
-          width="900"
-          height="1100"
           fetchpriority="high"
-          class="media-fill max-md:aspect-[4/3]"
         />
       ) : (
         <div
-          class="flex h-full w-full items-center justify-center bg-[var(--color-sand-200)] text-sm text-[var(--color-ink-500)] max-md:aspect-[4/3]"
+          class="flex items-center justify-center bg-[var(--color-sand-200)] text-sm text-[var(--color-ink-500)]"
         >
           Vieta nuotraukai
         </div>
@@ -102,7 +99,7 @@ const faq = await Promise.all(
     <div class="prose-measure">
       <h2 class="text-3xl md:text-4xl">{page.closingHeading}</h2>
       <p class="mt-5 text-[var(--color-ink-500)]">{page.closingText}</p>
-      <div class="mt-9"><Button href="/registracija">Nemokamas 15 min. pokalbis</Button></div>
+      <div class="mt-9"><Button booking>Nemokamas 15 min. pokalbis</Button></div>
     </div>
   </Section>
 </Base>

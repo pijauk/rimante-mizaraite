@@ -1,12 +1,12 @@
 ---
 import Button from './Button.astro'
 import Logo from './Logo.astro'
+import { calAttrs, bookingHref } from '../lib/booking'
 interface Props {
   practitionerName: string
   professionalTitle?: string
-  bookingUrl: string
 }
-const { practitionerName, professionalTitle, bookingUrl } = Astro.props
+const { practitionerName, professionalTitle } = Astro.props
 const nav = [
   { href: '/apie', label: 'Apie mane' },
   { href: '/kaip-vyksta', label: 'Kaip vyksta' },
@@ -54,7 +54,7 @@ const path = Astro.url.pathname
           {item.label}
         </a>
       ))}
-      <Button href="/registracija" variant="solid" class="ml-1 !px-5 !py-2.5 text-sm">
+      <Button booking variant="solid" class="ml-1 !px-5 !py-2.5 text-sm">
         Registruotis
       </Button>
     </nav>
@@ -69,7 +69,11 @@ const path = Astro.url.pathname
             {item.label}
           </a>
         ))}
-        <a href="/registracija" class="mt-1 block rounded-xl bg-[var(--color-clay-500)] px-3 py-2.5 text-center text-white">
+        <a
+          href={bookingHref}
+          class="mt-1 block rounded-xl bg-[var(--color-clay-500)] px-3 py-2.5 text-center text-white"
+          {...calAttrs}
+        >
           Registruotis
         </a>
       </div>

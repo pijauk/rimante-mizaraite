@@ -3,12 +3,18 @@
    - outline (default) — every CTA on the page body
    - solid            — the header CTA only, so it stays the one loud thing
    - quiet            — inline text link, always visually secondary */
+import { calAttrs, bookingHref } from '../lib/booking'
+
 interface Props {
-  href: string
+  href?: string
+  /** Booking CTA: opens the Cal.com modal, falling back to the calendar page. */
+  booking?: boolean
   variant?: 'outline' | 'solid' | 'quiet'
   class?: string
 }
-const { href, variant = 'outline', class: extra = '' } = Astro.props
+const { href, booking = false, variant = 'outline', class: extra = '' } = Astro.props
+const target = booking ? bookingHref : href
+const bookingAttrs = booking ? calAttrs : {}
 const base =
   'inline-flex items-center justify-center rounded-sm px-7 py-3.5 text-base font-medium transition-colors duration-200 min-h-[48px]'
 const styles = {
@@ -20,4 +26,4 @@ const styles = {
     'text-[var(--color-ink-700)] underline underline-offset-4 decoration-[var(--color-sand-300)] hover:decoration-[var(--color-clay-500)] px-0 py-0 min-h-0',
 }[variant]
 ---
-<a href={href} class={`${base} ${styles} ${extra}`}><slot /></a>
+<a href={target} class={`${base} ${styles} ${extra}`} {...bookingAttrs}><slot /></a>

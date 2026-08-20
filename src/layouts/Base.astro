@@ -3,6 +3,7 @@ import '../styles/global.css'
 import Seo from '../components/Seo.astro'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
+import CalEmbed from '../components/CalEmbed.astro'
 import { settings } from '../lib/content'
 
 interface Props {
@@ -66,7 +67,6 @@ const jsonLd = {
     <Header
       practitionerName={settings?.practitionerName ?? ''}
       professionalTitle={settings?.professionalTitle ?? ''}
-      bookingUrl={settings?.bookingUrl ?? '/registracija'}
     />
 
     <main id="turinys" class="flex-1">
@@ -74,5 +74,7 @@ const jsonLd = {
     </main>
 
     <Footer settings={settings} />
+
+    <CalEmbed />
   </body>
 </html>

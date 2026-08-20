@@ -166,6 +166,29 @@ h3 { line-height: 1.3;  letter-spacing: -0.006em; }
 .hero > .hero-copy { grid-column: content-start / content-end; }
 .hero > .hero-media { grid-column: full-start / full-end; }
 
+/* The media is a window, never a ruler.
+
+   Its contents are taken out of flow so the picture's own proportions can
+   never set the hero's height. Left in flow, an <img height:100%> whose
+   parent is content-sized cannot resolve the percentage, falls back to its
+   intrinsic ratio and drives the whole hero: the 3:4 photograph stretched
+   the hero to 1002px against a 704px cap, and grew further on wider
+   screens. Out of flow, the row height comes from the copy and the cap
+   alone, and object-fit does the cropping. */
+.hero > .hero-media {
+  position: relative;
+  overflow: hidden;
+  /* phones: the media stacks under the copy and needs its own height */
+  height: clamp(15rem, 62vw, 24rem);
+}
+.hero > .hero-media > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 @media (min-width: 768px) {
   .hero {
     grid-template-columns:
@@ -187,8 +210,10 @@ h3 { line-height: 1.3;  letter-spacing: -0.006em; }
   .hero > .hero-media {
     grid-column: split / full-end;
     align-self: stretch;
+    height: auto;
   }
 }
+
 
 /* Media blocks fill whatever box they are given */
 .media-fill { display: block; width: 100%; height: 100%; object-fit: cover; }
