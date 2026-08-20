@@ -62,6 +62,13 @@ export default config({
       path: 'src/content/settings/site',
       format: { data: 'json' },
       schema: {
+        logo: fields.image({
+          label: 'Logotipas',
+          directory: 'public/images/brand',
+          publicPath: '/images/brand/',
+          description:
+            'SVG arba PNG. Palikus tuščią naudojamas dabartinis ženklas, kuris automatiškai prisitaiko prie svetainės teksto spalvos. Įkeltas failas rodomas su savo spalvomis.',
+        }),
         practitionerName: fields.text({
           label: 'Vardas ir pavardė',
           description: 'Rodoma antraštėje ir struktūriniuose duomenyse.',

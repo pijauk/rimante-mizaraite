@@ -5,8 +5,9 @@ import { calAttrs, bookingHref } from '../lib/booking'
 interface Props {
   practitionerName: string
   professionalTitle?: string
+  logo?: string | null
 }
-const { practitionerName, professionalTitle } = Astro.props
+const { practitionerName, professionalTitle, logo } = Astro.props
 const nav = [
   { href: '/apie', label: 'Apie mane' },
   { href: '/kaip-vyksta', label: 'Kaip vyksta' },
@@ -21,11 +22,17 @@ const path = Astro.url.pathname
 >
   <div class="mx-auto flex max-w-page items-center justify-between gap-6 px-6 py-5">
     <!-- Logo height is matched to the two-line text block beside it:
+         The max-w caps exist because the mark is CMS-replaceable: a wide
+         wordmark would otherwise push the name into the menu button on
+         narrow screens. object-contain keeps any aspect ratio intact.
          name (leading-tight) + 2px gap + title (leading-snug).
          44px at base (20+2+12px type), 51px from md (24+2+14px type).
          Re-derive these if the lockup type sizes change. -->
     <a href="/" class="flex items-center gap-2.5 text-[var(--color-ink-900)]">
-      <Logo class="h-11 w-auto shrink-0 md:h-[3.2rem]" />
+      <Logo
+        src={logo}
+        class="h-11 w-auto max-w-16 shrink-0 object-contain md:h-[3.2rem] md:max-w-40"
+      />
       <span class="min-w-0">
         <span
           class="block font-serif text-xl leading-tight tracking-[-0.012em] whitespace-nowrap md:text-2xl"
