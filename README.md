@@ -1,8 +1,44 @@
-# Rimantė Mizaraitė — website
+# Rimantė Mizaraitė: psychotherapist website
 
-Astro + Keystatic + Cloudflare. Static public pages, live CMS at `/keystatic`.
+The website of a psychologist and psychotherapist in private practice in Vilnius. I designed and built it for the client in August 2026. The site's content is in Lithuanian.
 
-## Quick start
+**Live:** https://rimante-mizaraite.pijauk.workers.dev
+
+![Home page: the headline, the free intro call button and a photo](docs/screenshots/client-home.jpg)
+
+## What it does
+
+- **Pages:** home, about, how sessions work, prices, FAQ, contacts and privacy policy, all with Lithuanian URLs.
+- **The client edits the site without a developer.** Texts, prices, FAQ, photos and the logo are managed in [Keystatic](https://keystatic.com) at `/keystatic`. Every save becomes a commit in this repository, and Cloudflare rebuilds the site.
+- **Booking:** the free 15-minute intro call is booked through a Cal.com pop-up.
+- **Fast and simple:** public pages are static HTML with almost no JavaScript. The menu and the FAQ use native `<details>` elements. Pages carry SEO metadata and structured data (JSON-LD).
+
+| About | Prices | Mobile |
+|---|---|---|
+| ![About page](docs/screenshots/client-about.jpg) | ![Prices page](docs/screenshots/client-prices.jpg) | ![Home page on a phone](docs/screenshots/client-mobile.jpg) |
+
+## Designed around the rules
+
+Lithuanian law strictly limits advertising of healthcare services. So the site has no testimonials, reviews or ratings, and no images that could look like patients. It shows only the therapist, the consulting room and quiet detail shots.
+
+The design rules:
+- light mode only, with warm neutral colours instead of clinical blue
+- serif headings and sans-serif body text, loaded with Lithuanian characters (`latin-ext`)
+- body text 18px or larger, at most 68 characters per line
+- one main call to action everywhere: the free intro call
+
+All the rules are in [CLAUDE.md](CLAUDE.md).
+
+## Built with
+
+Astro 7 (static output) · Tailwind CSS 4 · Keystatic CMS with Keystatic Cloud · Cloudflare Workers · Cal.com
+
+Two decisions worth knowing about:
+
+- **Content is read through Astro content collections, not the Keystatic Reader API.** Under the Cloudflare adapter, the Reader silently returns empty data during prerendering.
+- **Everything is prerendered except `/keystatic`.** That route is server-rendered, so the editor works on the live site.
+
+## Run it locally
 
 ```bash
 npm install
@@ -10,88 +46,34 @@ npm run dev
 ```
 
 - Site: http://localhost:4321
-- CMS:  http://localhost:4321/keystatic
+- CMS: http://localhost:4321/keystatic
 
-Runs in **local mode** by default — edits write straight to files in
-`src/content/`. Commit them like any other change.
-
-## Switching to Keystatic Cloud
-
-Cloud mode lets the client edit the live site without a GitHub account.
-
-1. Push this repo to GitHub.
-2. Create a team + project at [keystatic.cloud](https://keystatic.cloud),
-   connected to that repo.
-   **Create a separate team per client.** Access is granted at team level and
-   every user in a team can see every project in it. Free plan = 3 users per
-   team, unlimited teams.
-3. Set the project slug in `keystatic.config.ts`:
-   ```ts
-   const CLOUD_PROJECT = 'your-team/rimante-mizaraite'
-   ```
-4. Add `.env`:
-   ```
-   PUBLIC_KEYSTATIC_STORAGE=cloud
-   ```
-
-Client edits then commit to GitHub, which triggers a Cloudflare rebuild.
-
-## Deploying to Cloudflare
-
-```bash
-npm run build
-npx wrangler deploy
-```
-
-`wrangler.jsonc` already sets the two required compatibility flags:
-
-- `nodejs_compat` — required by the Astro Cloudflare adapter
-- `disable_nodejs_process_v2` — works around a known bug where `nodejs_compat`
-  makes non-prerendered routes return `[object Object]`
-
-Cloudflare's free tier permits commercial use and unlimited bandwidth.
-(Vercel's Hobby tier does **not** — it forbids client work.)
+Locally, Keystatic runs in local mode: edits are written straight to `src/content/`. Deploying and switching to Keystatic Cloud are covered in [docs/DEPLOY.md](docs/DEPLOY.md) and [docs/SETUP-CLOUD.md](docs/SETUP-CLOUD.md).
 
 ## Project structure
 
 ```
 src/
-  content/          content edited via Keystatic
-    settings/       site-wide settings (JSON)
-    pages/          page content (JSON + Markdoc)
-    services/       session types and prices
-    faq/            FAQ entries
-  content.config.ts Astro collections — how content is read
-  lib/content.ts    content helpers
-  layouts/Base.astro  shell, SEO, JSON-LD
-  components/       header, footer, buttons, sections
-  pages/            routes (Lithuanian slugs)
-  styles/global.css design tokens
-keystatic.config.ts CMS schema (Lithuanian labels)
+  content/            content edited in Keystatic
+    settings/         contacts, hours, address, booking link
+    pages/            page content (JSON + Markdoc)
+    services/         session types and prices
+    faq/              FAQ entries
+  content.config.ts   Astro collections: how content is read
+  layouts/Base.astro  page shell, SEO, JSON-LD
+  components/         header, footer, buttons, sections
+  pages/              routes (Lithuanian URLs)
+  styles/global.css   design tokens
+keystatic.config.ts   CMS schema, with Lithuanian labels for the client
 ```
-
-## Pages
 
 | Route | Page |
 |---|---|
-| `/` | Pradžia |
-| `/apie` | Apie mane |
-| `/kaip-vyksta` | Kaip vyksta konsultacijos |
-| `/kainos` | Kainos |
-| `/duk` | D.U.K. |
-| `/registracija` | Registracija |
-| `/kontaktai` | Kontaktai |
-| `/privatumo-politika` | Privatumo politika |
-
-## Before launch
-
-- [ ] Legal review of advertising-law compliance (see `CLAUDE.md`)
-- [ ] Real photography — therapist portrait + empty room only
-- [ ] Real Lithuanian copy replacing all placeholder text
-- [ ] Cal.com booking URL in site settings, tested end to end incl. cancellation
-- [ ] Contact form wired to a real endpoint with no third-party retention
-- [ ] Cookieless analytics
-- [ ] Privacy policy reviewed by a lawyer
-- [ ] `site:` in `astro.config.mjs` and the sitemap URL in `public/robots.txt`
-      changed from `example.lt`
-- [ ] Google Business Profile + directory listings created
+| `/` | Pradžia (home) |
+| `/apie` | Apie mane (about) |
+| `/kaip-vyksta` | Kaip vyksta konsultacijos (how sessions work) |
+| `/kainos` | Kainos (prices) |
+| `/duk` | D.U.K. (FAQ) |
+| `/kontaktai` | Kontaktai (contacts) |
+| `/privatumo-politika` | Privatumo politika (privacy policy) |
+| `/keystatic` | Content editor |
